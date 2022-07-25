@@ -8,4 +8,3 @@ import './pay-status';
 import './pay-type';
 import './contract-list';
 import './contract-list-month';
-import './test';

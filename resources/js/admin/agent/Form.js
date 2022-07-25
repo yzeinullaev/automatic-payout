@@ -11,7 +11,6 @@ Vue.component('agent-form', {
                 address:  '' ,
                 requisite:  '' ,
                 partner_id:  '' ,
-                perex:  '' ,
                 enabled:  false ,
 
             },

@@ -9,7 +9,6 @@ class PayStatus extends Model
     protected $fillable = [
         'name',
         'slug',
-        'perex',
         'enabled',
 
     ];

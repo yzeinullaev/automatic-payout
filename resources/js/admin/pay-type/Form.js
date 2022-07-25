@@ -6,7 +6,6 @@ Vue.component('pay-type-form', {
         return {
             form: {
                 name:  '' ,
-                perex:  '' ,
                 enabled:  false ,
 
             }

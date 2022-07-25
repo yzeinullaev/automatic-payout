@@ -30,7 +30,6 @@ class UpdatePartner extends FormRequest
             'name' => ['sometimes', 'string'],
             'bin' => ['sometimes', 'string'],
             'branch_id' => ['sometimes', 'integer'],
-            'perex' => ['nullable', 'string'],
             'enabled' => ['sometimes', 'boolean'],
         ];
     }

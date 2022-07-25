@@ -11,7 +11,6 @@ class Branch extends Model
         'number',
         'address',
         'bin',
-        'perex',
         'enabled',
 
     ];

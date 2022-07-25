@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
+use Brackets\Translatable\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 
 class Agent extends Model
 {
+    use HasTranslations;
+
+    public $translatable = ['ru'];
+
     protected $fillable = [
         'name',
         'initials',
@@ -13,7 +18,6 @@ class Agent extends Model
         'address',
         'requisite',
         'partner_id',
-        'perex',
         'enabled',
 
     ];

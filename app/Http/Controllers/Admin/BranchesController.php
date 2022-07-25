@@ -40,7 +40,7 @@ class BranchesController extends Controller
             ['id', 'name', 'number', 'address', 'bin', 'enabled'],
 
             // set columns to searchIn
-            ['id', 'name', 'address', 'bin', 'perex']
+            ['id', 'name', 'address', 'bin']
         );
 
         if ($request->ajax()) {

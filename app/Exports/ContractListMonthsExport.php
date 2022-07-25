@@ -2,14 +2,12 @@
 
 namespace App\Exports;
 
-use App\Models\ContractList;
 use App\Models\ContractListMonth;
 
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -116,7 +114,7 @@ class ContractListMonthsExport implements FromQuery,
         $sheet->getStyle('E20')->getFont()->setBold(true);
         $sheet->getStyle('E20:H20')->getFont()->setBold(true);
 
-        $sheet->getStyle('G7')->getNumberFormat()->setFormatCode( NumberFormat::FORMAT_TEXT );
+        $sheet->getStyle('G7:G9')->getNumberFormat()->setFormatCode( NumberFormat::FORMAT_TEXT );
         $sheet->getStyle('G19:H20')->getNumberFormat()->setFormatCode( NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 
         $sheet->getStyle('G7')->getBorders()->applyFromArray($border_style);
@@ -149,6 +147,7 @@ class ContractListMonthsExport implements FromQuery,
         $sheet->getStyle('E20')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyle('F20:H20')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT)->setVertical(Alignment::VERTICAL_TOP);
         $sheet->getStyle('F28:H28')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $sheet->getStyle('G7:G9')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
 
         $sheet->mergeCells('A16:A17');
         $sheet->mergeCells('B16:B17');

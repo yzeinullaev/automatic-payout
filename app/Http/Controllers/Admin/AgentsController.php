@@ -43,7 +43,7 @@ class AgentsController extends Controller
             ['id', 'name', 'initials', 'iin', 'address', 'requisite', 'partner_id', 'enabled'],
 
             // set columns to searchIn
-            ['id', 'name', 'initials', 'iin', 'address', 'requisite', 'perex'],
+            ['id', 'name', 'initials', 'iin', 'address', 'requisite'],
 
             function($query) use ($request){
                 $query->select('agents.id', 'agents.name', 'agents.initials', 'agents.iin', 'agents.address', 'agents.requisite', 'partners.name as partner_id', 'agents.enabled')->leftJoin('partners', 'partners.id', '=', 'agents.partner_id')->get();

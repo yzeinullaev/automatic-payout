@@ -29,7 +29,6 @@ class StorePartner extends FormRequest
             'name' => ['required', 'string'],
             'bin' => ['required', 'string'],
             'branch_id' => ['required', 'integer'],
-            'perex' => ['nullable', 'string'],
             'enabled' => ['required', 'boolean'],
 
         ];

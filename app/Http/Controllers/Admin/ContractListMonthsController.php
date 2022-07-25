@@ -9,10 +9,10 @@ use App\Http\Requests\Admin\ContractListMonth\DestroyContractListMonth;
 use App\Http\Requests\Admin\ContractListMonth\IndexContractListMonth;
 use App\Http\Requests\Admin\ContractListMonth\StoreContractListMonth;
 use App\Http\Requests\Admin\ContractListMonth\UpdateContractListMonth;
-use App\Models\ContractList;
 use App\Models\ContractListMonth;
 use App\Services\ContractListService;
 use Brackets\AdminListing\Facades\AdminListing;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -22,6 +22,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Excel;
 
 class ContractListMonthsController extends Controller
 {
@@ -210,13 +211,12 @@ class ContractListMonthsController extends Controller
         return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
     }
 
-//    public function download(ContractListMonth $contractListMonth) : Response
-//    {
-//        dd($contractListMonth);
-//    }
-
     public function download(ContractListMonth $contractListMonth)
     {
-        return (new ContractListMonthsExport($contractListMonth->id))->download('contract_list.xlsx');
+        $data = $this->service->getById($contractListMonth->contract_list_id);
+        $startMonth = Carbon::now()->month($contractListMonth->month)->day(1)->format("d.m.Y");
+        $endMonth = Carbon::now()->month($contractListMonth->month)->endOfMonth()->format("d.m.Y");
+        $fileName = 'АКТ-' .$startMonth . '-' . $endMonth.'-'.$data->agent_id.'.xlsx';
+        return (new ContractListMonthsExport($contractListMonth->month))->download($fileName, Excel::XLSX);
     }
 }

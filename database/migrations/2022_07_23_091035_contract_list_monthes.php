@@ -17,10 +17,10 @@ class ContractListMonthes extends Migration
             $table->increments('id');
             $table->integer('contract_list_id');
             $table->integer('month');
-            $table->float('pay_decode')->nullable();
-            $table->float('pay_act')->nullable();
-            $table->integer('upload_decode_file')->nullable();
-            $table->integer('download_akt_file')->nullable();
+            $table->float('pay_decode', 16, 2)->nullable();
+            $table->float('pay_act', 16, 2)->nullable();
+            $table->string('upload_decode_file')->nullable();
+            $table->string('download_akt_file')->nullable();
             $table->timestamps();
         });
     }

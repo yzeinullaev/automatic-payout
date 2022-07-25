@@ -30,7 +30,6 @@ class StoreBranch extends FormRequest
             'number' => ['required', 'integer'],
             'address' => ['required', 'string'],
             'bin' => ['required', 'string'],
-            'perex' => ['nullable', 'string'],
             'enabled' => ['required', 'boolean'],
 
         ];

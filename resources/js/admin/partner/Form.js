@@ -8,7 +8,6 @@ Vue.component('partner-form', {
                 name:  '' ,
                 bin:  '' ,
                 branch_id:  '' ,
-                perex:  '' ,
                 enabled:  false ,
 
             },

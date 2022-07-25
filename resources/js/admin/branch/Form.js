@@ -9,7 +9,6 @@ Vue.component('branch-form', {
                 number:  '' ,
                 address:  '' ,
                 bin:  '' ,
-                perex:  '' ,
                 enabled:  false ,
 
             }

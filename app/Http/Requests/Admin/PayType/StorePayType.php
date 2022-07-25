@@ -27,7 +27,6 @@ class StorePayType extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'perex' => ['nullable', 'string'],
             'enabled' => ['required', 'boolean'],
 
         ];

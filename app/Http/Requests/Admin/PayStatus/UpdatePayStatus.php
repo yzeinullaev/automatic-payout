@@ -28,7 +28,6 @@ class UpdatePayStatus extends FormRequest
     {
         return [
             'name' => ['sometimes', 'string'],
-            'perex' => ['nullable', 'string'],
             'enabled' => ['sometimes', 'boolean'],
 
         ];

@@ -9,7 +9,6 @@ class PayType extends Model
     protected $fillable = [
         'name',
         'slug',
-        'perex',
         'enabled',
 
     ];

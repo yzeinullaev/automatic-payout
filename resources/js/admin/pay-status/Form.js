@@ -6,7 +6,6 @@ Vue.component('pay-status-form', {
         return {
             form: {
                 name:  '' ,
-                perex:  '' ,
                 enabled:  false ,
 
             }

@@ -33,7 +33,6 @@ class UpdateAgent extends FormRequest
             'address' => ['sometimes', 'string'],
             'requisite' => ['sometimes', 'string'],
             'partner_id' => ['sometimes', 'integer'],
-            'perex' => ['nullable', 'string'],
             'enabled' => ['sometimes', 'boolean'],
         ];
     }

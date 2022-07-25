@@ -31,7 +31,6 @@ class UpdateBranch extends FormRequest
             'number' => ['sometimes', 'integer'],
             'address' => ['sometimes', 'string'],
             'bin' => ['sometimes', 'string'],
-            'perex' => ['nullable', 'string'],
             'enabled' => ['sometimes', 'boolean'],
 
         ];

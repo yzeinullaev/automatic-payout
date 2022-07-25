@@ -10,7 +10,6 @@ class Partner extends Model
         'name',
         'bin',
         'branch_id',
-        'perex',
         'enabled',
 
     ];

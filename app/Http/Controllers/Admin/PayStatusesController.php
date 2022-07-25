@@ -40,7 +40,7 @@ class PayStatusesController extends Controller
             ['id', 'name', 'enabled'],
 
             // set columns to searchIn
-            ['id', 'name', 'perex']
+            ['id', 'name']
         );
 
         if ($request->ajax()) {
