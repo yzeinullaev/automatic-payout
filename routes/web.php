@@ -152,3 +152,34 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
     });
 });
 
+
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('chacke-alls')->name('chacke-alls/')->group(static function() {
+            Route::get('/',                                             'ChackeAllController@index')->name('index');
+            Route::get('/create',                                       'ChackeAllController@create')->name('create');
+            Route::post('/',                                            'ChackeAllController@store')->name('store');
+            Route::get('/{chackeAll}/edit',                             'ChackeAllController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'ChackeAllController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{chackeAll}',                                 'ChackeAllController@update')->name('update');
+            Route::delete('/{chackeAll}',                               'ChackeAllController@destroy')->name('destroy');
+        });
+    });
+});
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('check-alls')->name('check-alls/')->group(static function() {
+            Route::get('/',                                             'CheckAllController@index')->name('index');
+            Route::get('/create',                                       'CheckAllController@create')->name('create');
+            Route::post('/',                                            'CheckAllController@store')->name('store');
+            Route::get('/{checkAll}/edit',                              'CheckAllController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'CheckAllController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{checkAll}',                                  'CheckAllController@update')->name('update');
+            Route::delete('/{checkAll}',                                'CheckAllController@destroy')->name('destroy');
+        });
+    });
+});

@@ -10,6 +10,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Brackets\Media\HasMedia\HasMediaThumbsTrait;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+
 class ContractListMonth extends Model implements HasMedia
 {
     use ProcessMediaTrait;

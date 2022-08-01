@@ -6,7 +6,7 @@ use App\Repositories\ContractListRepository;
 
 class ContractListService
 {
-    private $repository;
+    private ContractListRepository $repository;
 
     public function __construct(ContractListRepository $repository) {
         $this->repository = $repository;
