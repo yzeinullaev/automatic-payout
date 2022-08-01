@@ -11,6 +11,20 @@ use Illuminate\Http\Request;
 class ApiAgentsController extends Controller
 {
 
+    public function getByContractId($contractId, Request $request)
+    {
+        return Response([
+            'results' =>
+                Agent::query()->select([
+                    'agents.id',
+                    'agents.name as text',
+                ])
+                ->leftJoin('contract_lists', 'contract_lists.agent_id', '=', 'agents.id')
+                ->where('contract_lists.id', $contractId)
+                ->get()
+        ]);
+    }
+
     public function index(Request $request)
     {
         $term = '';
@@ -23,14 +37,11 @@ class ApiAgentsController extends Controller
                 Agent::query()->select([
                     'agents.id',
                     'agents.name as text',
-                    DB::raw('case when agents.id is null then false else true end as selected'),
-                    DB::raw('case when contract_lists.id is null then false else true end as contract_selected'),
                 ])
-                ->leftJoin('partners', 'agents.partner_id', '=', 'partners.id')
-                ->leftJoin('contract_lists', 'contract_lists.agent_id', '=', 'agents.id')
-                ->where('agents.name', 'like', '%'. $term . '%')
-                ->groupBy('agents.id', 'agents.name')
-                ->get()
+                    ->leftJoin('contract_lists', 'contract_lists.agent_id', '=', 'agents.id')
+                    ->where('agents.name', 'like', '%'. $term . '%')
+                    ->groupBy('agents.id', 'agents.name')
+                    ->get()
         ]);
     }
 }

@@ -17,7 +17,6 @@ class Agent extends Model
         'iin',
         'address',
         'requisite',
-        'partner_id',
         'enabled',
 
     ];

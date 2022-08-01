@@ -31,7 +31,6 @@ class StoreAgent extends FormRequest
             'iin' => ['required', 'string'],
             'address' => ['required', 'string'],
             'requisite' => ['required', 'string'],
-            'partner_id' => ['required', 'integer'],
             'enabled' => ['required', 'boolean'],
 
         ];

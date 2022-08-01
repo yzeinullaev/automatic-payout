@@ -58,7 +58,6 @@
                                         <th scope="col" is='sortable' :column="'iin'">{{ trans('admin.agent.columns.iin') }}</th>
                                         <th scope="col" is='sortable' :column="'requisite'">{{ trans('admin.agent.columns.requisite') }}</th>
                                         <th scope="col" is='sortable' :column="'address'">{{ trans('admin.agent.columns.address') }}</th>
-                                        <th scope="col" is='sortable' :column="'partner_id'">{{ trans('admin.agent.columns.partner_id') }}</th>
                                         <th scope="col" is='sortable' :column="'enabled'">{{ trans('admin.agent.columns.enabled') }}</th>
 
                                         <th></th>
@@ -89,7 +88,6 @@
                                     <td data-label="{{ trans('admin.agent.columns.iin') }}">@{{ item.iin }}</td>
                                     <td data-label="{{ trans('admin.agent.columns.requisite') }}">@{{ item.requisite }}</td>
                                     <td data-label="{{ trans('admin.agent.columns.address') }}">@{{ item.address }}</td>
-                                    <td data-label="{{ trans('admin.agent.columns.partner_id') }}">@{{ item.partner_id }}</td>
 
                                     <td data-label="{{ trans('admin.agent.columns.enabled') }}">
                                         <label class="switch switch-3d switch-success">

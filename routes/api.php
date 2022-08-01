@@ -31,6 +31,7 @@ Route::prefix('partners')->namespace('App\Http\Controllers\Api')->name('partners
 
 Route::prefix('agents')->namespace('App\Http\Controllers\Api')->name('agents/')->group(static function() {
     Route::get('/', 'ApiAgentsController@index')->name('index');
+    Route::get('/{contractId}', 'ApiAgentsController@getByContractId')->name('getByContractId');
 });
 
 Route::prefix('pay-statuses')->namespace('App\Http\Controllers\Api')->name('pay-statuses/')->group(static function() {

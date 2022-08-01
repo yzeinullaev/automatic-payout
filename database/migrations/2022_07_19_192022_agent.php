@@ -20,7 +20,6 @@ class Agent extends Migration
             $table->string('iin');
             $table->string('address');
             $table->string('requisite');
-            $table->integer('partner_id');
             $table->boolean('enabled')->default(false);
             $table->timestamps();
         });

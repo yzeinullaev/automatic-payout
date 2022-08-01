@@ -40,14 +40,10 @@ class AgentsController extends Controller
             $request,
 
             // set columns to query
-            ['id', 'name', 'initials', 'iin', 'address', 'requisite', 'partner_id', 'enabled'],
+            ['id', 'name', 'initials', 'iin', 'address', 'requisite', 'enabled'],
 
             // set columns to searchIn
-            ['id', 'name', 'initials', 'iin', 'address', 'requisite'],
-
-            function($query) use ($request){
-                $query->select('agents.id', 'agents.name', 'agents.initials', 'agents.iin', 'agents.address', 'agents.requisite', 'partners.name as partner_id', 'agents.enabled')->leftJoin('partners', 'partners.id', '=', 'agents.partner_id')->get();
-            }
+            ['id', 'name', 'initials', 'iin', 'address', 'requisite']
         );
 
         if ($request->ajax()) {
@@ -85,8 +81,34 @@ class AgentsController extends Controller
     {
         // Sanitize input
         $sanitized = $request->getSanitized();
-
         // Store the Agent
+        if (Agent::where('name', $sanitized['name'])->exists()) {
+
+            if ($request->ajax()) {
+                abort(409, trans('brackets/admin-ui::admin.operation.agent_name_exist'));
+            }
+
+            return redirect('admin/agents');
+        }
+
+        if (Agent::where('iin', $sanitized['iin'])->exists()) {
+
+            if ($request->ajax()) {
+                abort(409, trans('brackets/admin-ui::admin.operation.agent_iin_exist'));
+            }
+
+            return redirect('admin/agents');
+        }
+
+        if (Agent::where('requisite', $sanitized['requisite'])->exists()) {
+
+            if ($request->ajax()) {
+                abort(409, trans('brackets/admin-ui::admin.operation.agent_requisite_exist'));
+            }
+
+            return redirect('admin/agents');
+        }
+
         $agent = Agent::create($sanitized);
 
         if ($request->ajax()) {
