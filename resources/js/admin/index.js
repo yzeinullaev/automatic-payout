@@ -8,5 +8,3 @@ import './pay-status';
 import './pay-type';
 import './contract-list';
 import './contract-list-month';
-import './chacke-all';
-import './check-all';
