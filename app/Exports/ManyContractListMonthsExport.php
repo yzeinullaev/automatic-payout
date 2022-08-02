@@ -145,8 +145,6 @@ class ManyContractListMonthsExport implements FromQuery,
 
         for ($i=0; $i<=$count; $i++) {
 
-//            $sheet->getStyle('A19:F19')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER)->setVertical(Alignment::VERTICAL_TOP);
-//            $sheet->getStyle('G19:H19')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT)->setVertical(Alignment::VERTICAL_TOP);
             $sheet->getStyle('A'.(19 + $i).':F'.(19 + $i))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER)->setVertical(Alignment::VERTICAL_TOP);
             $sheet->getStyle('G'.(19 + $i).':H'.(19 + $i))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT)->setVertical(Alignment::VERTICAL_TOP);
 

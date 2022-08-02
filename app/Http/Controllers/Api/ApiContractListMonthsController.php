@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exports\ContractListMonthsExport;
 use App\Http\Controllers\Controller;
-use App\Repositories\ContractListMonthRepository;
+use App\Http\Requests\Api\StoreDocContractListMonth;
 use App\Services\ContractListMonthService;
+use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\Exception\CopyFileException;
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class ApiContractListMonthsController extends Controller
 {
@@ -19,8 +22,18 @@ class ApiContractListMonthsController extends Controller
         $this->service = $service;
     }
 
-    public function download($id)
+    /**
+     * @throws CopyFileException
+     * @throws CreateTemporaryFileException
+     */
+    public function downloadDocx(StoreDocContractListMonth $contractListMonthIds)
     {
-        return (new ContractListMonthsExport($id))->download('contract_list.xlsx');
+        return response(['url' => $this->service->downloadDocx($contractListMonthIds->data)]);
+    }
+
+
+    public function downloadAndDelete(string $url)
+    {
+        return response()->download('/storage/'.$url)->deleteFileAfterSend(true);
     }
 }

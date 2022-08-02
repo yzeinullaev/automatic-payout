@@ -148,6 +148,7 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::post('/{contractListMonth}',                         'ContractListMonthsController@update')->name('update');
             Route::delete('/{contractListMonth}',                       'ContractListMonthsController@destroy')->name('destroy');
             Route::get('/{contractListMonth}/download',                 'ContractListMonthsController@download')->name('download');
+            Route::get('/{contractListMonth}/download-doc',             'ContractListMonthsController@downloadDoc')->name('downloadDoc');
         });
     });
 });

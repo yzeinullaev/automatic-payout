@@ -17,7 +17,7 @@ class ContractListMonthRepository
         $this->model = $model;
     }
 
-    public function getAllById($id)
+    public function getAllByIds(array $ids)
     {
         return $this->model::query()->select(
             'branches.name as branch_name',
@@ -40,6 +40,7 @@ class ContractListMonthRepository
             'contract_list_months.month',
             'contract_list_months.pay_decode',
             'contract_list_months.pay_act',
+            'contract_list_months.id',
         )
             ->leftJoin('contract_lists', 'contract_list_months.contract_list_id', '=', 'contract_lists.id')
             ->leftJoin('branches', 'branches.id', '=', 'contract_lists.branch_id')
@@ -47,7 +48,7 @@ class ContractListMonthRepository
             ->leftJoin('agents', 'agents.id', '=', 'contract_lists.agent_id')
             ->leftJoin('pay_statuses', 'pay_statuses.id', '=', 'contract_lists.pay_status_id')
             ->leftJoin('pay_types', 'pay_types.id', '=', 'contract_lists.pay_type_id')
-            ->where('contract_list_months.id', $id)
+            ->whereIn('contract_list_months.id', $ids)
             ->get();
     }
 

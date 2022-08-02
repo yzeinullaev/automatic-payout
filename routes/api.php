@@ -47,7 +47,8 @@ Route::prefix('contract-list')->namespace('App\Http\Controllers\Api')->name('con
 });
 
 Route::prefix('contract-list-month')->namespace('App\Http\Controllers\Api')->name('contract-list-month/')->group(static function() {
-    Route::get('/download/{id}', 'ApiContractListMonthsController@download')->name('download');
+    Route::get('/download-delete-doc-file/{fileName}', 'ApiContractListMonthsController@downloadAndDelete')->name('downloadAndDelete');
+    Route::post('/download-doc', 'ApiContractListMonthsController@downloadDocx')->name('downloadDocx');
 });
 
 

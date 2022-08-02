@@ -106,7 +106,11 @@
                                             </span>
 
                                             <span class="pull-right pr-2">
-                                                <button class="btn btn-sm btn-success pr-3 pl-3" @click="bulkDeleteMonth('/admin/contract-list-months/bulk-destroy')">{{ trans('brackets/admin-ui::admin.btn.download_more') }}</button>
+                                                <button class="btn btn-sm btn-success pr-3 pl-3" @click="DownloadActs('/admin/contract-list-months/bulk-destroy')">{{ trans('brackets/admin-ui::admin.btn.download_act') }}</button>
+                                            </span>
+
+                                            <span class="pull-right pr-2">
+                                                <button class="btn btn-sm btn-success pr-3 pl-3" @click="DownloadApplications('/api/contract-list-month/download-doc')">{{ trans('brackets/admin-ui::admin.btn.download_app') }}</button>
                                             </span>
 
                                         </td>
@@ -134,7 +138,13 @@
                                                 @{{ item.download_akt_file }}
                                             </div>
                                             <div class="col-md-12">
+                                                {{ trans('brackets/admin-ui::admin.btn.act_download') }}
                                                 <a class="btn btn-sm btn-success" :href="item.resource_url + '/download'" title="{{ trans('brackets/admin-ui::admin.btn.download') }}" role="button"><i class="fa fa-download"></i></a>
+                                            </div>
+                                            <hr>
+                                            <div class="col-md-12">
+                                                {{ trans('brackets/admin-ui::admin.btn.application_download') }}
+                                                <a class="btn btn-sm btn-success" :href="item.resource_url + '/download-doc'" title="{{ trans('brackets/admin-ui::admin.btn.download') }}" role="button"><i class="fa fa-download"></i></a>
                                             </div>
                                         </td>
                                     </tr>

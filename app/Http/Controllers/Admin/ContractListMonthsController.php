@@ -11,28 +11,31 @@ use App\Http\Requests\Admin\ContractListMonth\IndexContractListMonth;
 use App\Http\Requests\Admin\ContractListMonth\StoreContractListMonth;
 use App\Http\Requests\Admin\ContractListMonth\UpdateContractListMonth;
 use App\Models\ContractListMonth;
+use App\Services\ContractListMonthService;
 use App\Services\ContractListService;
 use Brackets\AdminListing\Facades\AdminListing;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Excel;
+use PhpOffice\PhpWord\Exception\CopyFileException;
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 
 class ContractListMonthsController extends Controller
 {
-    private $service;
+    private ContractListService $service;
+    private ContractListMonthService $monthService;
 
-    public function __construct(ContractListService $service) {
+    public function __construct(ContractListService $service, ContractListMonthService $monthService)
+    {
         $this->service = $service;
+        $this->monthService = $monthService;
     }
 
     /**
@@ -45,7 +48,7 @@ class ContractListMonthsController extends Controller
     {
         // create and AdminListing instance for a specific model and
         $data = AdminListing::create(ContractListMonth::class)->processRequestAndGet(
-            // pass the request with params
+        // pass the request with params
             $request,
 
             // set columns to query
@@ -54,7 +57,7 @@ class ContractListMonthsController extends Controller
             // set columns to searchIn
             ['id', 'month', 'pay_decode', 'pay_act'],
 
-            function($query) use ($contractListId, $request){
+            function ($query) use ($contractListId, $request) {
 
                 $query->select(
                     'contract_list_months.id',
@@ -74,7 +77,7 @@ class ContractListMonthsController extends Controller
         if ($request->ajax()) {
             if ($request->has('bulk')) {
                 return [
-                    'bulkItems' => $data->pluck('id')
+                    'bulkItems' => $data->pluck('id'),
                 ];
             }
             return ['data' => $data];
@@ -89,9 +92,8 @@ class ContractListMonthsController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @throws AuthorizationException
      * @return Factory|View
+     * @throws AuthorizationException
      */
     public function create()
     {
@@ -102,7 +104,6 @@ class ContractListMonthsController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
      * @param StoreContractListMonth $request
      * @return array|RedirectResponse|Redirector
      */
@@ -117,15 +118,14 @@ class ContractListMonthsController extends Controller
             return ['redirect' => url('admin/contract-list-months/') . '/' . $request->contract_list_id . '/month', 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
         }
 
-        return redirect('admin/contract-list-months'  . $request->contract_list_id . '/month');
+        return redirect('admin/contract-list-months' . $request->contract_list_id . '/month');
     }
 
     /**
      * Display the specified resource.
-     *
      * @param ContractListMonth $contractListMonth
-     * @throws AuthorizationException
      * @return void
+     * @throws AuthorizationException
      */
     public function show(ContractListMonth $contractListMonth)
     {
@@ -136,10 +136,9 @@ class ContractListMonthsController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
      * @param ContractListMonth $contractListMonth
-     * @throws AuthorizationException
      * @return Factory|View
+     * @throws AuthorizationException
      */
     public function edit(ContractListMonth $contractListMonth)
     {
@@ -154,7 +153,6 @@ class ContractListMonthsController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      * @param UpdateContractListMonth $request
      * @param ContractListMonth $contractListMonth
      * @return array|RedirectResponse|Redirector
@@ -184,11 +182,10 @@ class ContractListMonthsController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
      * @param DestroyContractListMonth $request
      * @param ContractListMonth $contractListMonth
-     * @throws Exception
      * @return ResponseFactory|RedirectResponse|Response
+     * @throws Exception
      */
     public function destroy(DestroyContractListMonth $request, ContractListMonth $contractListMonth)
     {
@@ -215,10 +212,22 @@ class ContractListMonthsController extends Controller
 
     public function download(ContractListMonth $contractListMonth)
     {
-        $data = $this->service->getById($contractListMonth->contract_list_id);
-        $startMonth = Carbon::now()->month($contractListMonth->month)->day(1)->format("d.m.Y");
-        $endMonth = Carbon::now()->month($contractListMonth->month)->endOfMonth()->format("d.m.Y");
-        $fileName = 'АКТ-' .$startMonth . '-' . $endMonth.'-'.$data->agent_id.'.xlsx';
-        return (new ContractListMonthsExport($contractListMonth->id))->download($fileName, Excel::XLSX);
+        return (new ContractListMonthsExport($contractListMonth->id))->download(
+            $this->monthService->getFileName([
+                'ids' => $contractListMonth->id,
+                'type' => 'АКТ',
+                'file_type' => 'xlsx',
+                'agent' => ''
+            ])($contractListMonth), Excel::XLSX);
     }
+
+    public function downloadDoc(ContractListMonth $contractListMonth)
+    {
+        try {
+            return Response()->download('/storage/' . $this->monthService->downloadDocx(['ids' => [$contractListMonth->id]]))->deleteFileAfterSend(true);
+        } catch (CopyFileException|CreateTemporaryFileException $e) {
+            return Response()->json($e->getMessage(), 500);
+        }
+    }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ContractListRepository;
+use Illuminate\Support\Collection;
 
 class ContractListService
 {
@@ -15,5 +16,10 @@ class ContractListService
     public function getById($contractListId)
     {
         return $this->repository->getById($contractListId);
+    }
+
+    public function getAll(): Collection
+    {
+        return $this->repository->getAll();
     }
 }
