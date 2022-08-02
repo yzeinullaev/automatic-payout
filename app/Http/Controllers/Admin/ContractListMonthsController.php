@@ -214,11 +214,11 @@ class ContractListMonthsController extends Controller
     {
         return (new ContractListMonthsExport($contractListMonth->id))->download(
             $this->monthService->getFileName([
-                'ids' => $contractListMonth->id,
+                'ids' => [$contractListMonth->id],
                 'type' => 'АКТ',
                 'file_type' => 'xlsx',
                 'agent' => ''
-            ])($contractListMonth), Excel::XLSX);
+            ]), Excel::XLSX);
     }
 
     public function downloadDoc(ContractListMonth $contractListMonth)
