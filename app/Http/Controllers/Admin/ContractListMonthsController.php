@@ -37,10 +37,11 @@ class ContractListMonthsController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @param $contractListId
      * @param IndexContractListMonth $request
      * @return array|Factory|View
      */
-    public function index(IndexContractListMonth $request)
+    public function index($contractListId, IndexContractListMonth $request)
     {
         // create and AdminListing instance for a specific model and
         $data = AdminListing::create(ContractListMonth::class)->processRequestAndGet(
@@ -51,10 +52,24 @@ class ContractListMonthsController extends Controller
             ['id', 'month', 'pay_decode', 'pay_act', 'upload_decode_file', 'download_akt_file'],
 
             // set columns to searchIn
-            ['id', 'month', 'pay_decode', 'pay_act']
+            ['id', 'month', 'pay_decode', 'pay_act'],
+
+            function($query) use ($contractListId, $request){
+
+                $query->select(
+                    'contract_list_months.id',
+                    'month_description.month',
+                    'contract_list_months.pay_decode',
+                    'contract_list_months.pay_act',
+                    'contract_list_months.upload_decode_file',
+                    'contract_list_months.download_akt_file'
+                )
+                    ->leftJoin('month_description', 'month_description.id', '=', 'contract_list_months.month')
+                    ->where('contract_list_id', $contractListId)->get();
+            }
         );
 
-        $contractList = $this->service->getById($request->contractList);
+        $contractList = $this->service->getById($contractListId);
 
         if ($request->ajax()) {
             if ($request->has('bulk')) {
@@ -67,7 +82,7 @@ class ContractListMonthsController extends Controller
 
         return view('admin.contract-list-month.index', [
             'data' => $data,
-            'contract_list_id' => $request->contractList,
+            'contract_list_id' => $contractListId,
             'contract_list_data' => $contractList,
         ]);
     }
@@ -146,7 +161,6 @@ class ContractListMonthsController extends Controller
      */
     public function update(UpdateContractListMonth $request, ContractListMonth $contractListMonth)
     {
-//        dd($request, $contractListMonth);
         // Sanitize input
         $sanitized = $request->getSanitized();
 

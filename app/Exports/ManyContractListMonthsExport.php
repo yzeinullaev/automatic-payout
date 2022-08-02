@@ -400,14 +400,17 @@ class ManyContractListMonthsExport implements FromQuery,
             $row->pay_act,
         ];
 
+        $i = 1;
+
         foreach ($row->whereIn('id', $this->contractListMonthIds)->get() as $items) {
+
             $startMonth = Carbon::now()->month($items->month)->day(1)->format("d.m.Y");
             $endMonth = Carbon::now()->month($items->month)->endOfMonth()->format("d.m.Y");
             $all_pay_decode += $items->pay_decode;
             $all_pay_act += $items->pay_act;
             //19+
             $put[$line_Start] = [
-                1,
+                $i++,
                 'Агентские услуги',
                 $startMonth . '-' . $endMonth,
                 null,

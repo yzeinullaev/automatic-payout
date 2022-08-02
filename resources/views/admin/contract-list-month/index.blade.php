@@ -57,6 +57,29 @@
                     </div>
                     <div class="card-body" v-cloak>
                         <div class="card-block">
+
+                            <form @submit.prevent="">
+                                <div class="row justify-content-md-between">
+                                    <div class="col col-lg-7 col-xl-5 form-group">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="{{ trans('brackets/admin-ui::admin.placeholder.search') }}" v-model="search" @keyup.enter="filter('search', $event.target.value)" />
+                                            <span class="input-group-append">
+                                            <button type="button" class="btn btn-primary" @click="filter('search', search)"><i class="fa fa-search"></i>&nbsp; {{ trans('brackets/admin-ui::admin.btn.search') }}</button>
+                                        </span>
+                                        </div>
+                                    </div>
+
+                                    {{--<div class="col-sm-auto form-group ">
+                                        <select class="form-control" v-model="pagination.state.per_page">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>--}}
+
+                                </div>
+                            </form>
+
                             <table class="r_table table table-hover table-listing">
                                 <thead>
                                     <tr>
@@ -77,8 +100,10 @@
                                 <tbody>
                                     <tr>
                                         <td data-label="#" class="bg-bulk-info d-table-cell text-center" colspan="7">
-                                                <span class="align-middle font-weight-light text-dark">{{ trans('brackets/admin-ui::admin.listing.selected_items') }} @{{ clickedBulkItemsCount }}.  <a href="#" class="text-primary" @click="onBulkItemsClickedAll('/admin/contract-list-months/' + contract_list_id + '/month')" v-if="(clickedBulkItemsCount < pagination.state.total)"> <i class="fa" :class="bulkCheckingAllLoader ? 'fa-spinner' : ''"></i> {{ trans('brackets/admin-ui::admin.listing.check_all_items') }} @{{ pagination.state.total }}</a> <span class="text-primary">|</span> <a
-                                                        href="#" class="text-primary" @click="onBulkItemsClickedAllUncheck()">{{ trans('brackets/admin-ui::admin.listing.uncheck_all_items') }}</a>  </span>
+                                            <span class="align-middle font-weight-light text-dark">{{ trans('brackets/admin-ui::admin.listing.selected_items') }} @{{ clickedBulkItemsCount }}.  <a href="#" class="text-primary" @click="onBulkItemsClickedAll('/admin/contract-list-months/' + {{$contract_list_id}} + '/month')" v-if="(clickedBulkItemsCount < pagination.state.total)"> <i class="fa" :class="bulkCheckingAllLoader ? 'fa-spinner' : ''"></i> {{ trans('brackets/admin-ui::admin.listing.check_all_items') }} @{{ pagination.state.total }}</a>
+                                                <span class="text-primary">|</span>
+                                                    <a href="#" class="text-primary" @click="onBulkItemsClickedAllUncheck()">{{ trans('brackets/admin-ui::admin.listing.uncheck_all_items') }}</a>
+                                            </span>
 
                                             <span class="pull-right pr-2">
                                                 <button class="btn btn-sm btn-success pr-3 pl-3" @click="bulkDeleteMonth('/admin/contract-list-months/bulk-destroy')">{{ trans('brackets/admin-ui::admin.btn.download_more') }}</button>
@@ -116,10 +141,20 @@
                                 </tbody>
                             </table>
 
+                           {{-- <div class="row" v-if="pagination.state.total > 0">
+                                <div class="col-sm">
+                                    <span class="pagination-caption">{{ trans('brackets/admin-ui::admin.pagination.overview') }}</span>
+                                </div>
+                                <div class="col-sm-auto">
+                                    <pagination></pagination>
+                                </div>
+                            </div>--}}
+
                             <div class="no-items-found" v-if="!collection.length > 0">
                                 <i class="icon-magnifier"></i>
                                 <h3>{{ trans('brackets/admin-ui::admin.index.no_items') }}</h3>
                                 <p>{{ trans('brackets/admin-ui::admin.index.try_changing_items') }}</p>
+                                <a class="btn btn-primary btn-spinner" href="{{ url('admin/admin-users/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{ trans('brackets/admin-ui::admin.btn.new') }} AdminUser</a>
                             </div>
                         </div>
                     </div>

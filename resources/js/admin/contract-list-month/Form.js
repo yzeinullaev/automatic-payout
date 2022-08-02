@@ -22,7 +22,7 @@ Vue.component('contract-list-month-form', {
                     current_page: 1, // required
                     last_page: 1, // required
                     from: 1,
-                    to: 10 // required
+                    to: 25 // required
                 },
                 options: {
                     alwaysShowPrevNext: false
