@@ -45,38 +45,14 @@
                             <table class="r_table table table-hover table-listing">
                                 <thead>
                                     <tr>
-                                        <th scope="col" class="bulk-checkbox">
-                                            <input class="form-check-input" id="enabled" type="checkbox" v-model="isClickedAll" v-validate="''" data-vv-name="enabled"  name="enabled_fake_element" @click="onBulkItemsClickedAllWithPagination()">
-                                            <label class="form-check-label" for="enabled">
-                                                #
-                                            </label>
-                                        </th>
-
                                         <th scope="col" is='sortable' :column="'id'">{{ trans('admin.pay-type.columns.id') }}</th>
                                         <th scope="col" is='sortable' :column="'name'">{{ trans('admin.pay-type.columns.name') }}</th>
                                         <th scope="col" is='sortable' :column="'enabled'">{{ trans('admin.pay-type.columns.enabled') }}</th>
-
-                                        <th></th>
-                                    </tr>
-                                    <tr v-show="(clickedBulkItemsCount > 0) || isClickedAll">
-                                        <td class="bg-bulk-info d-table-cell text-center" colspan="6">
-                                            <span class="align-middle font-weight-light text-dark">{{ trans('brackets/admin-ui::admin.listing.selected_items') }} @{{ clickedBulkItemsCount }}.  <a href="#" class="text-primary" @click="onBulkItemsClickedAll('/admin/pay-types')" v-if="(clickedBulkItemsCount < pagination.state.total)"> <i class="fa" :class="bulkCheckingAllLoader ? 'fa-spinner' : ''"></i> {{ trans('brackets/admin-ui::admin.listing.check_all_items') }} @{{ pagination.state.total }}</a> <span class="text-primary">|</span> <a
-                                                        href="#" class="text-primary" @click="onBulkItemsClickedAllUncheck()">{{ trans('brackets/admin-ui::admin.listing.uncheck_all_items') }}</a>  </span>
-
-                                            <span class="pull-right pr-2">
-                                                <button class="btn btn-sm btn-danger pr-3 pl-3" @click="bulkDelete('/admin/pay-types/bulk-destroy')">{{ trans('brackets/admin-ui::admin.btn.delete') }}</button>
-                                            </span>
-
-                                        </td>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(item, index) in collection" :key="item.id" :class="bulkItems[item.id] ? 'bg-bulk' : ''">
-                                        <td class="bulk-checkbox">
-                                            <input class="form-check-input" :id="'enabled' + item.id" type="checkbox" v-model="bulkItems[item.id]" v-validate="''" :data-vv-name="'enabled' + item.id"  :name="'enabled' + item.id + '_fake_element'" @click="onBulkItemClicked(item.id)" :disabled="bulkCheckingAllLoader">
-                                            <label class="form-check-label" :for="'enabled' + item.id">
-                                            </label>
-                                        </td>
 
                                         <td data-label="{{ trans('admin.pay-type.columns.id') }}">@{{ item.id }}</td>
                                         <td data-label="{{ trans('admin.pay-type.columns.name') }}">@{{ item.name }}</td>
@@ -88,7 +64,7 @@
                                         </td>
 
 
-                                        <td>
+                                        <td data-label="">
                                             <div class="row no-gutters">
                                                 <div class="col-md-12">
                                                     <a class="btn btn-sm btn-spinner btn-info" :href="item.resource_url + '/edit'" title="{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>

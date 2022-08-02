@@ -60,7 +60,7 @@
                             <table class="r_table table table-hover table-listing">
                                 <thead>
                                     <tr>
-                                        <th class="bulk-checkbox">
+                                        <th scope="col" class="bulk-checkbox">
                                             <input class="form-check-input" id="enabled" type="checkbox" v-model="isClickedAll" v-validate="''" data-vv-name="enabled"  name="enabled_fake_element" @click="onBulkItemsClickedAllWithPagination()">
                                             <label class="form-check-label" for="enabled">
                                                 #
@@ -73,10 +73,12 @@
                                         <th scope="col" is='sortable' :column="'upload_decode_file'">{{ trans('admin.contract-list-month.columns.upload_decode_file') }}</th>
                                         <th scope="col" is='sortable' :column="'download_akt_file'">{{ trans('admin.contract-list-month.columns.download_akt_file') }}</th>
                                     </tr>
-                                    <tr v-show="(clickedBulkItemsCount > 0) || isClickedAll">
-                                        <td class="bg-bulk-info d-table-cell text-center" colspan="7">
-                                            <span class="align-middle font-weight-light text-dark">{{ trans('brackets/admin-ui::admin.listing.selected_items') }} @{{ clickedBulkItemsCount }}.  <a href="#" class="text-primary" @click="onBulkItemsClickedAll('/admin/contract-list-months/' + contract_list_id + '/month')" v-if="(clickedBulkItemsCount < pagination.state.total)"> <i class="fa" :class="bulkCheckingAllLoader ? 'fa-spinner' : ''"></i> {{ trans('brackets/admin-ui::admin.listing.check_all_items') }} @{{ pagination.state.total }}</a> <span class="text-primary">|</span> <a
-                                                    href="#" class="text-primary" @click="onBulkItemsClickedAllUncheck()">{{ trans('brackets/admin-ui::admin.listing.uncheck_all_items') }}</a>  </span>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td data-label="#" class="bg-bulk-info d-table-cell text-center" colspan="7">
+                                                <span class="align-middle font-weight-light text-dark">{{ trans('brackets/admin-ui::admin.listing.selected_items') }} @{{ clickedBulkItemsCount }}.  <a href="#" class="text-primary" @click="onBulkItemsClickedAll('/admin/contract-list-months/' + contract_list_id + '/month')" v-if="(clickedBulkItemsCount < pagination.state.total)"> <i class="fa" :class="bulkCheckingAllLoader ? 'fa-spinner' : ''"></i> {{ trans('brackets/admin-ui::admin.listing.check_all_items') }} @{{ pagination.state.total }}</a> <span class="text-primary">|</span> <a
+                                                        href="#" class="text-primary" @click="onBulkItemsClickedAllUncheck()">{{ trans('brackets/admin-ui::admin.listing.uncheck_all_items') }}</a>  </span>
 
                                             <span class="pull-right pr-2">
                                                 <button class="btn btn-sm btn-success pr-3 pl-3" @click="bulkDeleteMonth('/admin/contract-list-months/bulk-destroy')">{{ trans('brackets/admin-ui::admin.btn.download_more') }}</button>
@@ -84,10 +86,8 @@
 
                                         </td>
                                     </tr>
-                                </thead>
-                                <tbody>
                                     <tr v-for="(item, index) in collection" :key="item.id" :class="bulkItems[item.id] ? 'bg-bulk' : ''">
-                                        <td class="bulk-checkbox">
+                                        <td data-label="#" class="bulk-checkbox">
                                             <input class="form-check-input" :id="'enabled' + item.id" type="checkbox" v-model="bulkItems[item.id]" v-validate="''" :data-vv-name="'enabled' + item.id"  :name="'enabled' + item.id + '_fake_element'" @click="onBulkItemClicked(item.id)" :disabled="bulkCheckingAllLoader">
                                             <label class="form-check-label" :for="'enabled' + item.id">
                                             </label>
