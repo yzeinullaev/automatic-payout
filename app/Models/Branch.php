@@ -11,6 +11,8 @@ class Branch extends Model
         'number',
         'address',
         'bin',
+        'customer',
+        'customer_initials',
         'enabled',
 
     ];

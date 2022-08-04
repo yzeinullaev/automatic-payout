@@ -9,6 +9,8 @@ Vue.component('branch-form', {
                 number:  '' ,
                 address:  '' ,
                 bin:  '' ,
+                customer: '',
+                customer_initials: '',
                 enabled:  false ,
 
             }

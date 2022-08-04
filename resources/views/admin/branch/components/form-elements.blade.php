@@ -30,6 +30,22 @@
     </div>
 </div>
 
+<div class="form-group row align-items-center" :class="{'has-danger': errors.has('customer'), 'has-success': fields.customer && fields.customer.valid }">
+    <label for="customer" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.branch.columns.customer') }}</label>
+    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
+        <input type="text" v-model="form.customer" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('customer'), 'form-control-success': fields.customer && fields.customer.valid}" id="customer" name="customer" placeholder="{{ trans('admin.branch.columns.customer') }}">
+        <div v-if="errors.has('customer')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('customer') }}</div>
+    </div>
+</div>
+
+<div class="form-group row align-items-center" :class="{'has-danger': errors.has('customer_initials'), 'has-success': fields.customer_initials && fields.customer_initials.valid }">
+    <label for="customer_initials" class="col-form-label text-md-right" :class="isFormLocalized ? 'col-md-4' : 'col-md-2'">{{ trans('admin.branch.columns.customer_initials') }}</label>
+    <div :class="isFormLocalized ? 'col-md-4' : 'col-md-9 col-xl-8'">
+        <input type="text" v-model="form.customer_initials" v-validate="'required'" @input="validate($event)" class="form-control" :class="{'form-control-danger': errors.has('customer_initials'), 'form-control-success': fields.customer_initials && fields.customer_initials.valid}" id="customer_initials" name="customer_initials" placeholder="{{ trans('admin.branch.columns.customer_initials') }}">
+        <div v-if="errors.has('customer_initials')" class="form-control-feedback form-text" v-cloak>@{{ errors.first('customer_initials') }}</div>
+    </div>
+</div>
+
 <div class="form-check row" :class="{'has-danger': errors.has('enabled'), 'has-success': fields.enabled && fields.enabled.valid }">
     <div class="ml-md-auto" :class="isFormLocalized ? 'col-md-8' : 'col-md-10'">
         <input class="form-check-input" id="enabled" type="checkbox" v-model="form.enabled" v-validate="''" data-vv-name="enabled"  name="enabled_fake_element">
