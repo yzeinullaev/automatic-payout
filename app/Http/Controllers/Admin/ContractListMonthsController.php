@@ -226,7 +226,7 @@ class ContractListMonthsController extends Controller
     public function downloadDoc(ContractListMonth $contractListMonth)
     {
         try {
-            return Response()->download('storage/' . $this->monthService->downloadDocx(['ids' => [$contractListMonth->id]]))->deleteFileAfterSend(true);
+            return Response()->download(storage_path('app/public/'. $this->monthService->downloadDocx(['ids' => [$contractListMonth->id]])))->deleteFileAfterSend(true);
         } catch (CopyFileException|CreateTemporaryFileException $e) {
             return Response()->json($e->getMessage(), 500);
         }

@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\ContractListMonth;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
@@ -63,8 +64,8 @@ class ContractListMonthsExport implements FromQuery,
             'pay_statuses.name as pay_status_name',
             'pay_types.name as pay_type_name',
             'contract_list_months.month',
-            'contract_list_months.pay_decode',
-            'contract_list_months.pay_act',
+            DB::raw('ROUND(pay_decode, 0) AS pay_decode'),
+            DB::raw('ROUND(pay_act, 0) AS pay_act'),
         )
             ->leftJoin('contract_lists', 'contract_list_months.contract_list_id', '=', 'contract_lists.id')
             ->leftJoin('branches', 'branches.id', '=', 'contract_lists.branch_id')
@@ -115,7 +116,7 @@ class ContractListMonthsExport implements FromQuery,
         $sheet->getStyle('E20:H20')->getFont()->setBold(true);
 
         $sheet->getStyle('G7:G9')->getNumberFormat()->setFormatCode( NumberFormat::FORMAT_TEXT );
-        $sheet->getStyle('G19:H20')->getNumberFormat()->setFormatCode( NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+        $sheet->getStyle('G19:H20')->getNumberFormat()->setFormatCode( NumberFormat::FORMAT_NUMBER);
 
         $sheet->getStyle('G7')->getBorders()->applyFromArray($border_style);
         $sheet->getStyle('G9')->getBorders()->applyFromArray($border_style);
@@ -184,7 +185,7 @@ class ContractListMonthsExport implements FromQuery,
 
         $string_price_A22 = new RichText();
         $string_price_A22->createText('Сведения об использовании запасов, полученных от заказчика: ');
-        $price_num = $string_price_A22->createTextRun(number_format($row->pay_act, 2, ',', ' ') . ' ');
+        $price_num = $string_price_A22->createTextRun(number_format($row->pay_act, 0, ',', ' ') . ' ');
         $price_num->getFont()->setName('Times New Roman')->setSize(10)->setBold(true);
         $price_str = $string_price_A22->createTextRun('(' . $this->numToStr($row->pay_act) .').');
         $price_str->getFont()->setBold(true);
@@ -604,7 +605,7 @@ class ContractListMonthsExport implements FromQuery,
             $out[] = $nul;
         }
         $out[] = self::morph(intval($rub), $unit[1][0], $unit[1][1], $unit[1][2]); // rub
-        $out[] = $kop . ' ' . self::morph($kop, $unit[0][0], $unit[0][1], $unit[0][2]); // kop
+//        $out[] = $kop . ' ' . self::morph($kop, $unit[0][0], $unit[0][1], $unit[0][2]); // kop
         return trim(preg_replace('/ {2,}/', ' ', join(' ', $out)));
     }
 

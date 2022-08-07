@@ -94,7 +94,7 @@ class ContractListMonthService
             'agent' => $data[0]['initials']
         ]);
 
-        $TemplateFileUrl = 'storage/Application#3.docx';
+        $TemplateFileUrl = 'Application#3.docx';
 
         $payDecodeSum = 0;
         $payActSum = 0;
@@ -104,17 +104,17 @@ class ContractListMonthService
             $payActSum += $item['pay_act'];
         }
 
-        $template = new TemplateProcessor($TemplateFileUrl);
+        $template = new TemplateProcessor(storage_path('app/public/'. $TemplateFileUrl));
         $template->setValues([
             'partner-name' => $data[0]['partner_name'],
             'partner-bin' => $data[0]['partner_bin'],
             'pay-type-name' => $data[0]['pay_type_name'],
             'agent-fee' => $data[0]['agent_fee'],
-            'pay-decode-amount' => $payDecodeSum,
-            'pay-act-amount' => $payActSum,
+            'pay-decode-amount' => round($payDecodeSum, 0),
+            'pay-act-amount' => round($payActSum, 0),
         ]);
 
-        $template->saveAs(storage_path('app\\public\\'.$fileName));
+        $template->saveAs(storage_path('app/public/'.$fileName));
 
         return $fileName;
     }
