@@ -170,24 +170,26 @@ class ContractListMonthsController extends Controller
 
         $mediaItems = $contractListMonth->getMedia('decode_file');
 
-        if (isset($request->decode_file[0]['path'])) {
-            $r = new ReaderXlsx();
-            $sp = $r->load(storage_path('uploads\\' . $request->decode_file[0]['path']));
-            $s = $sp->getActiveSheet();
+        foreach ($request->decode_file as $decode_file) {
+            if (isset($decode_file['path'])) {
+                $r = new ReaderXlsx();
+                $sp = $r->load(storage_path('uploads/' . $decode_file['path']));
+                $s = $sp->getActiveSheet();
 
-            $info = $r->listWorksheetInfo(storage_path('uploads\\' . $request->decode_file[0]['path']));
-            $totalRows = $info[0]['totalRows'];
-            $sum = 0;
-            for ($row = 2; $row <= $totalRows; $row++) {
-                if (Str::contains($s->getCell("B{$row}")->getValue(), $contractList->partner_bin)) {
-                    $sum += round(floatval($s->getCell("D{$row}")->getValue()), 2);
+                $info = $r->listWorksheetInfo(storage_path('uploads/' . $decode_file['path']));
+                $totalRows = $info[0]['totalRows'];
+                $sum = 0;
+                for ($row = 2; $row <= $totalRows; $row++) {
+                    if (Str::contains($s->getCell("B{$row}")->getValue(), $contractList->partner_bin)) {
+                        $sum += round(floatval($s->getCell("D{$row}")->getValue()), 2);
+                    }
                 }
+
+                $sanitized['pay_decode'] = $sum;
+                $sanitized['pay_act'] = round(($sum * $contractList->agent_fee) / 100, 2);
             }
 
-            $sanitized['pay_decode'] = $sum;
-            $sanitized['pay_act'] = round(($sum * $contractList->agent_fee) / 100, 2);
         }
-
 
         if (isset($mediaItems[0])) {
             $sanitized['upload_decode_file'] = $mediaItems[0]->getUrl();
