@@ -19,6 +19,12 @@ Route::get('/', function () {
 });
 
 
+Route::middleware(['web', 'admin', 'auth:' . config('admin-auth.defaults.guard')])->group(static function () {
+    Route::namespace('Brackets\AdminAuth\Http\Controllers')->group(static function () {
+        Route::get('/admin', 'AdminHomepageController@index')->name('brackets/admin-auth::admin');
+    });
+});
+
 /* Auto-generated admin routes */
 Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
     Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
@@ -151,4 +157,9 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::get('/{contractListMonth}/download-doc',             'ContractListMonthsController@downloadDoc')->name('downloadDoc');
         });
     });
+});
+
+
+Route::get('test', function() {
+    Storage::disk('google')->put('test.txt', 'Hello World');
 });

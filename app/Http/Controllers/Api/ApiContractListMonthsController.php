@@ -34,6 +34,6 @@ class ApiContractListMonthsController extends Controller
 
     public function downloadAndDelete(string $url)
     {
-        return response()->download('/storage/'.$url)->deleteFileAfterSend(true);
+        return response()->download('storage/'.$url)->deleteFileAfterSend(true);
     }
 }

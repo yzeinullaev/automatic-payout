@@ -15,6 +15,8 @@ use App\Services\ContractListMonthService;
 use App\Services\ContractListService;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
+use Illuminate\Support\Facades\Storage;
+use Google\Service\Storage as GoogleStorage;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -224,7 +226,7 @@ class ContractListMonthsController extends Controller
     public function downloadDoc(ContractListMonth $contractListMonth)
     {
         try {
-            return Response()->download('/storage/' . $this->monthService->downloadDocx(['ids' => [$contractListMonth->id]]))->deleteFileAfterSend(true);
+            return Response()->download('storage/' . $this->monthService->downloadDocx(['ids' => [$contractListMonth->id]]))->deleteFileAfterSend(true);
         } catch (CopyFileException|CreateTemporaryFileException $e) {
             return Response()->json($e->getMessage(), 500);
         }

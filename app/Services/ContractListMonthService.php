@@ -114,7 +114,7 @@ class ContractListMonthService
             'pay-act-amount' => $payActSum,
         ]);
 
-        $template->saveAs('/storage/'.$fileName);
+        $template->saveAs(storage_path('app\\public\\'.$fileName));
 
         return $fileName;
     }

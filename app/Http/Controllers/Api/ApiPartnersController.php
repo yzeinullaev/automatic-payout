@@ -22,10 +22,8 @@ class ApiPartnersController extends Controller
                 Partner::query()->select([
                     'partners.id',
                     'partners.name as text',
-                    DB::raw('case when agents.id is null then false else true end as selected'),
                     DB::raw('case when contract_lists.id is null then false else true end as contract_selected'),
                 ])
-                ->leftJoin('agents', 'agents.partner_id', '=', 'partners.id')
                 ->leftJoin('contract_lists', 'contract_lists.partner_id', '=', 'partners.id')
                 ->where('partners.name', 'like', '%'. $term . '%')
                 ->groupBy('partners.id', 'partners.name')
