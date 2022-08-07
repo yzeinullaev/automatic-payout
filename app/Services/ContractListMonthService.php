@@ -68,17 +68,6 @@ class ContractListMonthService
         return $items['type'] . $startMonth . '-' . $endMonth . '-' . $items['agent'] . '.' . $items['file_type'];
     }
 
-    public function downloadAndDelete($url): bool
-    {
-        if(Storage::exists($url)){
-            Storage::delete($url);
-
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * @throws CopyFileException
      * @throws CreateTemporaryFileException

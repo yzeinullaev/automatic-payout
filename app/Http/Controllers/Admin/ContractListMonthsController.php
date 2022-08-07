@@ -24,10 +24,12 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Excel;
 use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
 
 class ContractListMonthsController extends Controller
 {
@@ -164,10 +166,33 @@ class ContractListMonthsController extends Controller
         // Sanitize input
         $sanitized = $request->getSanitized();
 
+        $contractList = $this->service->getById($request->contract_list_id);
+
         $mediaItems = $contractListMonth->getMedia('decode_file');
+
+        if (isset($request->decode_file[0]['path'])) {
+            $r = new ReaderXlsx();
+            $sp = $r->load(storage_path('uploads\\' . $request->decode_file[0]['path']));
+            $s = $sp->getActiveSheet();
+
+            $info = $r->listWorksheetInfo(storage_path('uploads\\' . $request->decode_file[0]['path']));
+            $totalRows = $info[0]['totalRows'];
+            $sum = 0;
+            for ($row = 2; $row <= $totalRows; $row++) {
+                if (Str::contains($s->getCell("B{$row}")->getValue(), $contractList->partner_bin)) {
+                    $sum += round(floatval($s->getCell("D{$row}")->getValue()), 2);
+                }
+            }
+
+            $sanitized['pay_decode'] = $sum;
+            $sanitized['pay_act'] = round(($sum * $contractList->agent_fee) / 100, 2);
+        }
+
+
         if (isset($mediaItems[0])) {
             $sanitized['upload_decode_file'] = $mediaItems[0]->getUrl();
         }
+
 
         // Update changed values ContractListMonth
         $contractListMonth->update($sanitized);
