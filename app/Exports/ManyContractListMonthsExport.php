@@ -427,7 +427,7 @@ class ManyContractListMonthsExport implements FromQuery,
         $string_price_A22->createText('Сведения об использовании запасов, полученных от заказчика: ');
         $price_num = $string_price_A22->createTextRun(number_format($all_pay_act, 0, ',', ' ') . ' ');
         $price_num->getFont()->setName('Times New Roman')->setSize(10)->setBold(true);
-        $price_str = $string_price_A22->createTextRun('(' . $this->numToStr($all_pay_act) .').');
+        $price_str = $string_price_A22->createTextRun('(' . $this->numToStr(round($all_pay_act)) .').');
         $price_str->getFont()->setBold(true);
         $price_str->getFont()->setName('Times New Roman')->setSize(10)->setUnderline(true);
 

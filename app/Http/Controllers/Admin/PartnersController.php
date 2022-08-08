@@ -37,13 +37,13 @@ class PartnersController extends Controller
             $request,
 
             // set columns to query
-            ['id', 'name', 'bin', 'branch_id', 'enabled'],
+            ['id', 'name', 'bin', 'code', 'branch_id', 'enabled'],
 
             // set columns to searchIn
             ['id', 'name', 'bin'],
 
             function($query) use ($request){
-                $query->select('partners.id', 'partners.name', 'partners.bin', 'branches.name as branch_id', 'partners.enabled')->leftJoin('branches', 'branches.id', '=', 'partners.branch_id')->get();
+                $query->select('partners.id', 'partners.name', 'partners.bin', 'partners.code','branches.name as branch_id', 'partners.enabled')->leftJoin('branches', 'branches.id', '=', 'partners.branch_id')->get();
             }
         );
 

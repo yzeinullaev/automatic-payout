@@ -180,7 +180,7 @@ class ContractListMonthsController extends Controller
                 $totalRows = $info[0]['totalRows'];
                 $sum = 0;
                 for ($row = 2; $row <= $totalRows; $row++) {
-                    if (Str::contains($s->getCell("B{$row}")->getValue(), $contractList->partner_bin)) {
+                    if (Str::contains($s->getCell("B{$row}")->getValue(), $contractList->code)) {
                         $sum += round(floatval($s->getCell("D{$row}")->getValue()), 2);
                     }
                 }

@@ -29,6 +29,7 @@ class UpdatePartner extends FormRequest
         return [
             'name' => ['sometimes', 'string'],
             'bin' => ['sometimes', 'string'],
+            'code' => ['sometimes', 'string'],
             'branch_id' => ['sometimes', 'integer'],
             'enabled' => ['sometimes', 'boolean'],
         ];

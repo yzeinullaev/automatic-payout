@@ -48,6 +48,7 @@
                                         <th scope="col" is='sortable' :column="'id'">{{ trans('admin.partner.columns.id') }}</th>
                                         <th scope="col" is='sortable' :column="'name'">{{ trans('admin.partner.columns.name') }}</th>
                                         <th scope="col" is='sortable' :column="'bin'">{{ trans('admin.partner.columns.bin') }}</th>
+                                        <th scope="col" is='sortable' :column="'code'">{{ trans('admin.partner.columns.code') }}</th>
                                         <th scope="col" is='sortable' :column="'branch_id'">{{ trans('admin.partner.columns.branch_id') }}</th>
                                         <th scope="col" is='sortable' :column="'enabled'">{{ trans('admin.partner.columns.enabled') }}</th>
                                         <th></th>
@@ -59,6 +60,7 @@
                                         <td data-label="{{ trans('admin.partner.columns.id') }}">@{{ item.id }}</td>
                                         <td data-label="{{ trans('admin.partner.columns.name') }}">@{{ item.name }}</td>
                                         <td data-label="{{ trans('admin.partner.columns.bin') }}">@{{ item.bin }}</td>
+                                        <td data-label="{{ trans('admin.partner.columns.code') }}">@{{ item.code }}</td>
                                         <td data-label="{{ trans('admin.partner.columns.branch_id') }}">@{{ item.branch_id }}</td>
 
                                         <td data-label="{{ trans('admin.partner.columns.enabled') }}">

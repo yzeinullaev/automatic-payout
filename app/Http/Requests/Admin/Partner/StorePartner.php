@@ -28,6 +28,7 @@ class StorePartner extends FormRequest
         return [
             'name' => ['required', 'string'],
             'bin' => ['required', 'string'],
+            'code' => ['required', 'string'],
             'branch_id' => ['required', 'integer'],
             'enabled' => ['required', 'boolean'],
 

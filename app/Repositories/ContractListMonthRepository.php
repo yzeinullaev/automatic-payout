@@ -30,6 +30,7 @@ class ContractListMonthRepository
             'contract_lists.agent_fee',
             'partners.name as partner_name',
             'partners.bin as partner_bin',
+            'partners.code',
             'agents.name as agent_name',
             'agents.initials',
             'agents.iin',
