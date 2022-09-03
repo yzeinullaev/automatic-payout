@@ -36,4 +36,31 @@ class ContractList extends Model
     {
         return url('/admin/contract-lists/'.$this->getKey());
     }
+
+    /* ************************ RELATIONS ************************* */
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class);
+    }
+
+    public function agent()
+    {
+        return $this->belongsTo(Agent::class);
+    }
+
+    public function payStatus()
+    {
+        return $this->belongsTo(PayStatus::class);
+    }
+
+    public function payType()
+    {
+        return $this->belongsTo(PayType::class);
+    }
 }

@@ -32,4 +32,9 @@ class Branch extends Model
     {
         return url('/admin/branches/'.$this->getKey());
     }
+
+    public function contractList()
+    {
+        return $this->hasMany(ContractList::class);
+    }
 }

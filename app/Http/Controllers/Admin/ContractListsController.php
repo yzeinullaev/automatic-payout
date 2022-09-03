@@ -8,7 +8,10 @@ use App\Http\Requests\Admin\ContractList\DestroyContractList;
 use App\Http\Requests\Admin\ContractList\IndexContractList;
 use App\Http\Requests\Admin\ContractList\StoreContractList;
 use App\Http\Requests\Admin\ContractList\UpdateContractList;
+use App\Models\Branch;
 use App\Models\ContractList;
+use App\Models\PayStatus;
+use App\Models\PayType;
 use App\Services\ContractListMonthService;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
@@ -45,32 +48,31 @@ class ContractListsController extends Controller
             $request,
 
             // set columns to query
-            ['id', 'branch_id', 'contract_number', 'start_contract_date', 'end_contract_date', 'partner_id', 'partner_bin', 'agents', 'pay_status_id', 'pay_type_id', 'agent_fee', 'enabled'],
+            ['id', 'branches.name as branch_id', 'contract_number', 'start_contract_date', 'end_contract_date', 'partners.name as partner_id', 'partner_bin', 'agents.name as agent_id', 'pay_statuses.name as pay_status_id', 'pay_types.name as pay_type_id', 'agent_fee', 'enabled'],
 
             // set columns to searchIn
-            ['id', 'branch_id', 'contract_number', 'partner_bin'],
+            ['branches.name', 'partners.name', 'agents.name', 'contract_number', 'partner_bin'],
 
             function($query) use ($request){
-                $query->select(
-                        'contract_lists.id',
-                        'branches.name as branch_id',
-                        'contract_lists.contract_number',
-                        'contract_lists.start_contract_date',
-                        'contract_lists.end_contract_date',
-                        'partners.name as partner_id',
-                        'contract_lists.partner_bin',
-                        'agents.name as agent_id',
-                        'pay_statuses.name as pay_status_id',
-                        'pay_types.name as pay_type_id',
-                        'contract_lists.agent_fee',
-                        'contract_lists.enabled'
-                    )
-                    ->leftJoin('branches', 'branches.id', '=', 'contract_lists.branch_id')
-                    ->leftJoin('partners', 'partners.id', '=', 'contract_lists.partner_id')
-                    ->leftJoin('agents', 'agents.id', '=', 'contract_lists.agent_id')
-                    ->leftJoin('pay_statuses', 'pay_statuses.id', '=', 'contract_lists.pay_status_id')
-                    ->leftJoin('pay_types', 'pay_types.id', '=', 'contract_lists.pay_type_id')
-                    ->get();
+                $query->with(['branch', 'partner', 'agent', 'payStatus', 'payType']);
+
+                $query->join('branches', 'branches.id', '=', 'contract_lists.branch_id');
+                $query->join('partners', 'partners.id', '=', 'contract_lists.partner_id');
+                $query->join('agents', 'agents.id', '=', 'contract_lists.agent_id');
+                $query->join('pay_statuses', 'pay_statuses.id', '=', 'contract_lists.pay_status_id');
+                $query->join('pay_types', 'pay_types.id', '=', 'contract_lists.pay_type_id');
+
+                if ($request->has('branches')) {
+                    $query->whereIn('contract_lists.branch_id', $request->get('branches'));
+                }
+
+                if ($request->has('payStatus')) {
+                    $query->whereIn('contract_lists.pay_status_id', $request->get('payStatus'));
+                }
+
+                if ($request->has('payTypes')) {
+                    $query->whereIn('contract_lists.pay_type_id', $request->get('payTypes'));
+                }
             }
         );
 
@@ -83,7 +85,12 @@ class ContractListsController extends Controller
             return ['data' => $data];
         }
 
-        return view('admin.contract-list.index', ['data' => $data]);
+        return view('admin.contract-list.index', [
+            'data' => $data,
+            'branches' => Branch::all(),
+            'payStatus' => PayStatus::all(),
+            'payTypes' => PayType::all(),
+        ]);
     }
 
     /**
