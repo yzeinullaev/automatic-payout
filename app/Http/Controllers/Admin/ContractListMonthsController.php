@@ -15,8 +15,6 @@ use App\Services\ContractListMonthService;
 use App\Services\ContractListService;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
-use Illuminate\Support\Facades\Storage;
-use Google\Service\Storage as GoogleStorage;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -241,12 +239,14 @@ class ContractListMonthsController extends Controller
 
     public function download(ContractListMonth $contractListMonth)
     {
+        $data = $this->monthService->getAllByIds([$contractListMonth['id']])->toArray();
+
         return (new ContractListMonthsExport($contractListMonth->id))->download(
             $this->monthService->getFileName([
                 'ids' => [$contractListMonth->id],
                 'type' => 'АКТ',
                 'file_type' => 'xlsx',
-                'agent' => ''
+                'agent' => $data[0]['initials']
             ]), Excel::XLSX);
     }
 
